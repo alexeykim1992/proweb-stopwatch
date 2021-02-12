@@ -49,26 +49,49 @@ const stopwatchHours = document.querySelector('.stopwatch__hours'),
       stopwatchSeconds = document.querySelector('.stopwatch__seconds');
       
 let startDate,
-    isCounting = false;
+    prevSeconds = 0,
+    allSeconds = 0,
+    isCounting = false,
+    isPaused = false;
 
-const startButton = document.querySelector('.stopwatch__btn');
+const startButton = document.querySelector('.stopwatch__start'),
+      pauseButton = document.querySelector('.stopwatch__pause'),
+      stopButton = document.querySelector('.stopwatch__stop');
 
 startButton.addEventListener('click', () => {
-    if (isCounting) {
-        isCounting = false;
-        startButton.innerHTML = 'start';
-    } else {
-        startDate = new Date();
-        isCounting = true;
-        startButton.innerHTML = 'stop';
-        counting();
-    }
+    startDate = new Date();
+    isCounting = true;
+    isPaused = false;
+
+    startButton.style.display = "none";
+    pauseButton.style.display = "inline";
+    stopButton.style.display = "inline";
+    counting();
+});
+
+pauseButton.addEventListener('click', () => {
+    prevSeconds = allSeconds;
+    isCounting = false;
+    isPaused = true;
+    startButton.style.display = "inline";
+    pauseButton.style.display = "none";
+});
+
+stopButton.addEventListener('click', () => {
+    isCounting = false;
+    isPaused = false;
+    prevSeconds = 0;
+    startButton.style.display = "inline";
+    pauseButton.style.display = "none";
+    stopButton.style.display = "none";    
+    stopwatchHours.innerHTML = "0";
+    stopwatchMinutes.innerHTML = "0";
+    stopwatchSeconds.innerHTML = "0";
 });
 
 function counting() {
     if (isCounting) {
-        let allSeconds = Math.floor((new Date() - startDate) / 1000);    
-        
+        allSeconds = prevSeconds + Math.floor((new Date() - startDate) / 1000);    
         stopwatchHours.innerHTML = Math.floor(allSeconds / 3600);
         stopwatchMinutes.innerHTML = Math.floor(allSeconds % 3600 / 60);
         stopwatchSeconds.innerHTML = allSeconds % 60;

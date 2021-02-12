@@ -249,6 +249,7 @@ body {
 }
 .stopwatch__btn {
     padding: 10px 15px;
+    margin: 0 10px;
     background: #fff;
     border-radius: 30px;
     border: none;
@@ -257,6 +258,14 @@ body {
     color: #191d22;
     cursor: pointer;
     outline: none;
+}
+
+.stopwatch__pause{
+    display: none;
+}
+
+.stopwatch__stop{
+    display: none;
 }
 
 /* Добавляем keyframe на уроке*/
